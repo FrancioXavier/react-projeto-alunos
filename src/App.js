@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Routes from './routes';
 import history from './services/history';
 import { Router } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Header />
       <Routes />
       <GlobalStyles />
+      <ToastContainer autoClose={3000} className="toast-container" />
     </Router>
   );
 }
