@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+//A função MyRoute funciona como rota privada e verifica se o usuário está ou não logado
 export default function MyRoute({ component: Component, isClosed, ...rest }) {
   const isLoggedIn = false;
 
