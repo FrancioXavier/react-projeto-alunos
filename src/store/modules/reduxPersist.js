@@ -6,7 +6,7 @@ export default (reducers) => {
     {
       key: 'REACT-BASE',
       storage,
-      whitelist: ['example'],
+      whitelist: ['auth'],
     },
     reducers,
   );
