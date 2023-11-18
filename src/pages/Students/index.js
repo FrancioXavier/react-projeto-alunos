@@ -6,19 +6,26 @@ import axios from '../../services/axios';
 import { ProfilePicture, StudentContainer } from './styled';
 import { get } from 'lodash';
 
+import Loading from '../../components/Loading';
+
 export default function Students() {
   const [students, setStudent] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getData() {
+      setIsLoading(true);
       const response = await axios.get('/alunos');
       setStudent(response.data);
+      setIsLoading(false);
     }
 
     getData();
   }, []);
   return (
     <Container>
+      <Loading isLoading={isLoading} />
+
       <h1>Alunos</h1>
 
       <StudentContainer>
@@ -32,8 +39,8 @@ export default function Students() {
               )}
             </ProfilePicture>
 
-            <spam>{student.nome} </spam>
-            <spam>{student.email}</spam>
+            <span>{student.nome} </span>
+            <span>{student.email}</span>
 
             <Link to={`/student/${student.id}/edit`}>
               <FaEdit size={16} />
