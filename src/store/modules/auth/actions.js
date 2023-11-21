@@ -47,3 +47,10 @@ export function registerCreatedSuccess(payload) {
     payload,
   };
 }
+
+export function studentDelete(payload) {
+  return {
+    type: types.STUDENT_DELETE,
+    payload,
+  };
+}

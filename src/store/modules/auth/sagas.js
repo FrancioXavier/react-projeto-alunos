@@ -73,8 +73,29 @@ function persistRehydrate({ payload }) {
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
+function* studentDelete({ payload }) {
+  const studentId = get(payload, 'studentId', null);
+  try {
+    if (studentId) {
+      yield call(axios.delete, `/alunos/${studentId}`);
+      toast.success('Conta deletada com sucesso');
+      history.push('/');
+    }
+  } catch (e) {
+    const errors = get(e, 'response.data.error', []);
+
+    if (errors.length > 0) {
+      errors.map((error) => toast.error(error));
+    } else {
+      toast.error('Aluno não cadastrado');
+    }
+    history.push('/');
+  }
+}
+
 export default all([
   takeLatest(types.LOGIN_REQUEST, loginRequest),
   takeLatest(types.PERSIST_REHYDRATE, persistRehydrate),
   takeLatest(types.REGISTER_REQUEST, registerRequest),
+  takeLatest(types.STUDENT_DELETE, studentDelete),
 ]);

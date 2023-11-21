@@ -57,6 +57,12 @@ export default function (state = initialState, action) {
       return newState;
     }
 
+    case types.STUDENT_DELETE: {
+      const newState = { ...state };
+      newState.isLoading = false;
+      return newState;
+    }
+
     default:
       return state;
   }

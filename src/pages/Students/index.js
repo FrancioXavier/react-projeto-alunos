@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '../../styles/GlobalStyles';
 import { Link } from 'react-router-dom';
-import { FaUserCircle, FaEdit, FaWindowClose } from 'react-icons/fa';
+import {
+  FaUserCircle,
+  FaEdit,
+  FaWindowClose,
+  FaExclamation,
+} from 'react-icons/fa';
 import axios from '../../services/axios';
 import { ProfilePicture, StudentContainer } from './styled';
 import { get } from 'lodash';
 
 import Loading from '../../components/Loading';
+import history from '../../services/history';
+import { toast } from 'react-toastify';
 
 export default function Students() {
   const [students, setStudent] = useState([]);
@@ -22,6 +29,25 @@ export default function Students() {
 
     getData();
   }, []);
+
+  const handleDeleteAsk = (e) => {
+    e.preventDefault();
+    const exclamation = e.currentTarget.nextSibling;
+    exclamation.setAttribute('display', 'block');
+    e.currentTarget.remove();
+  };
+
+  const handleDelete = (e, studentId) => {
+    try {
+      e.target.parentElement.remove();
+      history.push(`/student/${studentId}/delete`);
+    } catch (error) {
+      const errors = get(error, 'response.data.errors', []);
+
+      errors.map((err) => toast.error(err));
+    }
+  };
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
@@ -45,9 +71,17 @@ export default function Students() {
             <Link to={`/student/${student.id}/edit`}>
               <FaEdit size={16} />
             </Link>
-            <Link to={`/student/${student.id}/delete`}>
+            <Link onClick={handleDeleteAsk} to={`#`}>
+              {/* /student/${student.id}/delete */}
               <FaWindowClose size={16} />
             </Link>
+
+            <FaExclamation
+              size={16}
+              display="none"
+              cursor="pointer"
+              onClick={(e) => handleDelete(e, student.id)}
+            />
           </div>
         ))}
       </StudentContainer>
